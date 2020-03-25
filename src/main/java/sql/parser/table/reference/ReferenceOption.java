@@ -1,4 +1,4 @@
-package sql.parser.enums;
+package sql.parser.table.reference;
 
 /**
  * @author liwenhe

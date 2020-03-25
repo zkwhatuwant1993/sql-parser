@@ -1,6 +1,6 @@
 package sql.parser.table;
 
-import sql.parser.enums.IndexType;
+import sql.parser.table.index.IndexType;
 
 import java.util.List;
 

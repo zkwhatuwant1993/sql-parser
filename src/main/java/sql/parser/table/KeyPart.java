@@ -3,7 +3,6 @@ package sql.parser.table;
 import org.apache.commons.lang3.StringUtils;
 import sql.parser.AbstractOperation;
 import sql.parser.enums.AscendingType;
-import sql.parser.exception.KeyPartException;
 
 /**
  * @author liwenhe

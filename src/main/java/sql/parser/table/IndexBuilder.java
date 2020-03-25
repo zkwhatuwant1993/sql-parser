@@ -1,7 +1,7 @@
 package sql.parser.table;
 
-import sql.parser.enums.IndexType;
-import sql.parser.exception.IndexException;
+import sql.parser.table.index.IndexType;
+import sql.parser.table.index.IndexDefinitionException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,7 +25,7 @@ public class IndexBuilder {
 
     public IndexBuilder index(String name, IndexType type, Boolean isUnique, String... field) {
         if (null == field || field.length == 0) {
-            throw new IndexException("Index's field must be null or empty");
+            throw new IndexDefinitionException("Index's field must be null or empty");
         }
 
         indexs.add(new Index(name, type, isUnique, Arrays.asList(field)));

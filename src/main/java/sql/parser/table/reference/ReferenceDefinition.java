@@ -1,11 +1,10 @@
-package sql.parser.table;
+package sql.parser.table.reference;
 
 import sql.parser.AbstractOperation;
 import sql.parser.OperationKeyword;
 import sql.parser.enums.AscendingType;
 import sql.parser.enums.MatchType;
-import sql.parser.enums.ReferenceOption;
-import sql.parser.exception.ReferenceDefinitionException;
+import sql.parser.table.KeyPart;
 
 import java.util.LinkedHashMap;
 import java.util.StringJoiner;

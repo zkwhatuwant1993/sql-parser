@@ -1,4 +1,4 @@
-package sql.parser.exception;
+package sql.parser.table.reference;
 
 /**
  * @author liwenhe
