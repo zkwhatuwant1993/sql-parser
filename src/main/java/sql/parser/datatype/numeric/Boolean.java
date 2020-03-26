@@ -8,7 +8,7 @@ import sql.parser.datatype.NumericTypeDefinition;
  */
 public class Boolean extends NumericTypeDefinition {
 
-    protected Boolean(Builder builder) {
+    private Boolean(Builder builder) {
         super(builder);
     }
 

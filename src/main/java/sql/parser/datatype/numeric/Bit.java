@@ -13,7 +13,7 @@ public class Bit extends NumericTypeDefinition {
 
     private final static Integer MAX_LENGTH = 64;
 
-    protected Bit(Builder builder) {
+    private Bit(Builder builder) {
         super(builder);
         this.precision = builder.precision;
     }

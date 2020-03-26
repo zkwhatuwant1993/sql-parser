@@ -20,7 +20,7 @@ public class TinyInt extends NumericTypeDefinition {
 
     private boolean zerofill;
 
-    protected TinyInt(Builder builder) {
+    private TinyInt(Builder builder) {
         super(builder);
         this.precision = builder.precision;
         this.unsigned = builder.unsigned;

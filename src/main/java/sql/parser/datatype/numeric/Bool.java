@@ -8,7 +8,7 @@ import sql.parser.datatype.NumericTypeDefinition;
  */
 public class Bool extends NumericTypeDefinition {
 
-    protected Bool(Builder builder) {
+    private Bool(Builder builder) {
         super(builder);
     }
 
