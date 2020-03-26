@@ -1,6 +1,5 @@
 package sql.parser.datatype.numeric;
 
-import sql.parser.datatype.DataTypeException;
 import sql.parser.datatype.NumericTypeDefinition;
 
 /**
@@ -9,9 +8,11 @@ import sql.parser.datatype.NumericTypeDefinition;
  */
 public class Bit extends NumericTypeDefinition {
 
-    private final static Integer MIN_LENGTH = 1;
+    private final static Number DEFAULT_LENGTH = 10;
 
-    private final static Integer MAX_LENGTH = 64;
+    private final static Number MIN_LENGTH = 1;
+
+    private final static Number MAX_LENGTH = 64;
 
     private Bit(Builder builder) {
         super(builder);
@@ -20,15 +21,16 @@ public class Bit extends NumericTypeDefinition {
 
     public static class Builder extends NumericTypeDefinition.Builder {
 
-        private Integer precision;
+        private Number precision;
 
         @Override
-        public Builder precision(Integer precision) {
-            if (precision < MIN_LENGTH || precision > MAX_LENGTH) {
-                throw new DataTypeException(
-                        String.format("DataType 'Bit' precision must be >= %d and <= %d", MIN_LENGTH, MAX_LENGTH));
+        public Builder precision(Number precision) {
+            if (precision.doubleValue() < MIN_LENGTH.doubleValue()
+                    || precision.doubleValue() > MAX_LENGTH.doubleValue()) {
+                this.precision = DEFAULT_LENGTH;
+            } else {
+                this.precision = precision;
             }
-            this.precision = precision;
             return this;
         }
 

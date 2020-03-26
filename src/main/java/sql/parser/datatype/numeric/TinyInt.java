@@ -8,35 +8,59 @@ import sql.parser.datatype.NumericTypeDefinition;
  */
 public class TinyInt extends NumericTypeDefinition {
 
-    private final static Integer SIGNED_MIN_LENGTH = -128;
+    private final static String KEYWORD = "TINYINT";
 
-    private final static Integer SIGNED_MAX_LENGTH = 127;
+    private final static Number DEFAULT_LENGTH = 10;
 
-    private final static Integer UNSIGNED_MIN_LENGTH = 0;
+    private final static Number SIGNED_MIN_LENGTH = -128;
 
-    private final static Integer UNSIGNED_MAX_LENGTH = 255;
+    private final static Number SIGNED_MAX_LENGTH = 127;
 
-    private boolean unsigned;
+    private final static Number UNSIGNED_MIN_LENGTH = 0;
 
-    private boolean zerofill;
+    private final static Number UNSIGNED_MAX_LENGTH = 255;
 
-    private TinyInt(Builder builder) {
+    protected boolean unsigned;
+
+    protected boolean zerofill;
+
+    protected TinyInt(Builder builder) {
         super(builder);
         this.precision = builder.precision;
         this.unsigned = builder.unsigned;
         this.zerofill = builder.zerofill;
     }
 
+    protected String getKeyword() {
+        return KEYWORD;
+    }
+
+    protected Number getSignedMinLength() {
+        return SIGNED_MIN_LENGTH;
+    }
+
+    protected Number getSignedMaxLength() {
+        return SIGNED_MAX_LENGTH;
+    }
+
+    protected Number getUnsignedMinLength() {
+        return UNSIGNED_MIN_LENGTH;
+    }
+
+    protected Number getUnsignedMaxLength() {
+        return UNSIGNED_MAX_LENGTH;
+    }
+
     public static class Builder extends NumericTypeDefinition.Builder {
 
-        private Integer precision;
+        protected Number precision;
 
-        private boolean unsigned;
+        protected boolean unsigned;
 
-        private boolean zerofill;
+        protected boolean zerofill;
 
         @Override
-        public Builder precision(Integer precision) {
+        public Builder precision(Number precision) {
             this.precision = precision;
             return this;
         }
@@ -60,22 +84,22 @@ public class TinyInt extends NumericTypeDefinition {
 
     @Override
     public String convertDDL() {
-        if ((this.unsigned || this.zerofill)
-                && (this.precision < UNSIGNED_MIN_LENGTH
-                        || this.precision > UNSIGNED_MAX_LENGTH)) {
-            this.precision = UNSIGNED_MAX_LENGTH;
-        }
+        if (null != this.precision) {
+            if ((this.unsigned || this.zerofill)
+                    && (this.precision.doubleValue() < this.getUnsignedMinLength().doubleValue()
+                    || this.precision.doubleValue() > this.getUnsignedMaxLength().doubleValue())) {
+                this.precision = DEFAULT_LENGTH;
+            }
 
-        if (!this.unsigned
-                && (this.precision < SIGNED_MIN_LENGTH
-                        || this.precision > SIGNED_MAX_LENGTH)) {
-            this.precision = SIGNED_MAX_LENGTH;
-        }
+            if (!this.unsigned
+                    && (this.precision.doubleValue() < getSignedMinLength().doubleValue()
+                    || this.precision.doubleValue() > getSignedMaxLength().doubleValue())) {
+                this.precision = DEFAULT_LENGTH;
+            }
 
-        if (null == this.precision) {
-            this.getDdlJoiner().add("TINYINT");
+            this.getDdlJoiner().add(String.format("%s(%d)", this.getKeyword(), this.precision));
         } else {
-            this.getDdlJoiner().add(String.format("TINYINT(%d)", this.precision));
+            this.getDdlJoiner().add(this.getKeyword());
         }
 
         if (this.zerofill) {

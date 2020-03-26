@@ -8,14 +8,14 @@ import sql.parser.datatype.NumericTypeDefinition;
  */
 public class Bool extends NumericTypeDefinition {
 
-    private Bool(Builder builder) {
+    protected Bool(Builder builder) {
         super(builder);
     }
 
-    private static class Builder extends NumericTypeDefinition.Builder {
+    protected static class Builder extends NumericTypeDefinition.Builder {
 
         @Override
-        public Builder precision(Integer precision) {
+        public Builder precision(Number precision) {
             return this;
         }
 

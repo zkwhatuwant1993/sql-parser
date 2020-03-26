@@ -12,13 +12,13 @@ public class NumericTypeDefinition extends AbstractOperation {
 
     protected final static String ZEROFILL = "ZEROFILL";
 
-    protected Integer precision;
+    protected Number precision;
 
     protected NumericTypeDefinition(Builder builder) {}
 
     protected abstract static class Builder {
 
-        public abstract Builder precision(Integer precision);
+        public abstract Builder precision(Number precision);
 
         public abstract NumericTypeDefinition build();
 
