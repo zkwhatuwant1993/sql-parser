@@ -16,9 +16,9 @@ public class TinyInt extends NumericTypeDefinition {
 
     private final static Integer UNSIGNED_MAX_LENGTH = 255;
 
-    private Boolean unsigned;
+    private boolean unsigned;
 
-    private Boolean zerofill;
+    private boolean zerofill;
 
     protected TinyInt(Builder builder) {
         super(builder);
@@ -31,9 +31,9 @@ public class TinyInt extends NumericTypeDefinition {
 
         private Integer precision;
 
-        private Boolean unsigned;
+        private boolean unsigned;
 
-        private Boolean zerofill;
+        private boolean zerofill;
 
         @Override
         public Builder precision(Integer precision) {
@@ -41,12 +41,12 @@ public class TinyInt extends NumericTypeDefinition {
             return this;
         }
 
-        public Builder unsigned(Boolean unsigned) {
+        public Builder unsigned(boolean unsigned) {
             this.unsigned = unsigned;
             return this;
         }
 
-        public Builder zerofill(Boolean zerofill) {
+        public Builder zerofill(boolean zerofill) {
             this.zerofill = zerofill;
             return this;
         }
