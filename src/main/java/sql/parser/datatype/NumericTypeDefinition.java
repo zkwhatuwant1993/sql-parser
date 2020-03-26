@@ -1,12 +1,10 @@
 package sql.parser.datatype;
 
-import sql.parser.AbstractOperation;
-
 /**
  * @author liwenhe
  * @date 2020-03-26 09:44
  */
-public class NumericTypeDefinition extends AbstractOperation {
+public class NumericTypeDefinition extends DataTypeDefinition {
 
     protected final static String UNSIGNED = "UNSIGNED";
 
@@ -22,11 +20,6 @@ public class NumericTypeDefinition extends AbstractOperation {
 
         public abstract NumericTypeDefinition build();
 
-    }
-
-    @Override
-    public String convertDDL() {
-        return super.convertDDL();
     }
 
 }
