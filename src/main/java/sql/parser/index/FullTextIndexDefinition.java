@@ -4,7 +4,7 @@ public class FullTextIndexDefinition extends IndexDefinition {
 
     private final static String TYPE = "FULLTEXT";
 
-    protected FullTextIndexDefinition(Builder builder) {
+    private FullTextIndexDefinition(Builder builder) {
         super(builder);
     }
 

@@ -4,8 +4,6 @@ import sql.parser.AbstractOperation;
 
 public abstract class AbstractIndexDefinition extends AbstractOperation {
 
-    protected final static String INDEX = "INDEX";
-
     protected abstract String type();
 
     protected abstract String ddl();
@@ -15,7 +13,7 @@ public abstract class AbstractIndexDefinition extends AbstractOperation {
         if (null != this.type()) {
             this.getDdlJoiner().add(type());
         }
-        this.getDdlJoiner().add(INDEX);
+        this.getDdlJoiner().add("INDEX");
         return this.ddl();
     }
 

@@ -1,6 +1,5 @@
 package sql.parser.datatype.numeric;
 
-import sql.parser.datatype.DataTypeException;
 import sql.parser.datatype.NumericTypeDefinition;
 
 /**
@@ -9,25 +8,46 @@ import sql.parser.datatype.NumericTypeDefinition;
  */
 public class TinyInt extends NumericTypeDefinition {
 
-    private final static Integer MIN_LENGTH = 1;
+    private final static Integer SIGNED_MIN_LENGTH = -128;
 
-    private final static Integer MAX_LENGTH = 64;
+    private final static Integer SIGNED_MAX_LENGTH = 127;
+
+    private final static Integer UNSIGNED_MIN_LENGTH = 0;
+
+    private final static Integer UNSIGNED_MAX_LENGTH = 255;
+
+    private Boolean unsigned;
+
+    private Boolean zerofill;
 
     protected TinyInt(Builder builder) {
         super(builder);
+        this.precision = builder.precision;
+        this.unsigned = builder.unsigned;
+        this.zerofill = builder.zerofill;
     }
 
     public static class Builder extends NumericTypeDefinition.Builder {
 
         private Integer precision;
 
+        private Boolean unsigned;
+
+        private Boolean zerofill;
+
         @Override
         public Builder precision(Integer precision) {
-            if (precision < MIN_LENGTH || precision > MAX_LENGTH) {
-                throw new DataTypeException(
-                        String.format("DataType 'Bit' precision must be >= %d and <= %d", MIN_LENGTH, MAX_LENGTH));
-            }
             this.precision = precision;
+            return this;
+        }
+
+        public Builder unsigned(Boolean unsigned) {
+            this.unsigned = unsigned;
+            return this;
+        }
+
+        public Builder zerofill(Boolean zerofill) {
+            this.zerofill = zerofill;
             return this;
         }
 
@@ -37,5 +57,36 @@ public class TinyInt extends NumericTypeDefinition {
         }
 
     }
+
+    @Override
+    public String convertDDL() {
+        if ((this.unsigned || this.zerofill)
+                && (this.precision < UNSIGNED_MIN_LENGTH
+                        || this.precision > UNSIGNED_MAX_LENGTH)) {
+            this.precision = UNSIGNED_MAX_LENGTH;
+        }
+
+        if (!this.unsigned
+                && (this.precision < SIGNED_MIN_LENGTH
+                        || this.precision > SIGNED_MAX_LENGTH)) {
+            this.precision = SIGNED_MAX_LENGTH;
+        }
+
+        if (null == this.precision) {
+            this.getDdlJoiner().add("TINYINT");
+        } else {
+            this.getDdlJoiner().add(String.format("TINYINT(%d)", this.precision));
+        }
+
+        if (this.zerofill) {
+            this.getDdlJoiner().add(UNSIGNED);
+            this.getDdlJoiner().add(ZEROFILL);
+        } else if (this.unsigned) {
+            this.getDdlJoiner().add(UNSIGNED);
+        }
+
+        return this.getDdlJoiner().toString();
+    }
+
 
 }

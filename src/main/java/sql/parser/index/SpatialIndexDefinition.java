@@ -4,7 +4,7 @@ public class SpatialIndexDefinition extends IndexDefinition {
 
     private final static String TYPE = "SPATIAL";
 
-    protected SpatialIndexDefinition(Builder builder) {
+    private SpatialIndexDefinition(Builder builder) {
         super(builder);
     }
 

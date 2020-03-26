@@ -39,4 +39,14 @@ public class Bit extends NumericTypeDefinition {
 
     }
 
+    @Override
+    public String convertDDL() {
+        if (null == this.precision) {
+            this.getDdlJoiner().add("BIT");
+        } else {
+            this.getDdlJoiner().add(String.format("BIT(%d)", this.precision));
+        }
+        return this.getDdlJoiner().toString();
+    }
+
 }

@@ -4,7 +4,7 @@ public class UniqueIndexDefinition extends IndexDefinition {
 
     private final static String TYPE = "UNIQUE";
 
-    protected UniqueIndexDefinition(Builder builder) {
+    private UniqueIndexDefinition(Builder builder) {
         super(builder);
     }
 
