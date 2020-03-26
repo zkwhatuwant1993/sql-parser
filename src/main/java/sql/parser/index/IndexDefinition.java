@@ -1,7 +1,7 @@
-package sql.parser.table.index;
+package sql.parser.index;
 
 import org.apache.commons.lang3.StringUtils;
-import sql.parser.table.KeyPart;
+import sql.parser.keypart.KeyPart;
 
 import java.util.LinkedHashMap;
 import java.util.StringJoiner;
@@ -69,7 +69,7 @@ public class IndexDefinition extends AbstractIndexDefinition {
             throw new IndexDefinitionException("KeyPart must be not null or empty.");
         }
 
-        StringJoiner keyPartJoiner = new StringJoiner(", ");
+        StringJoiner keyPartJoiner = new StringJoiner(COMMA_STRING + BLANK_STRING);
         for (KeyPart keyPart : keyParts.values()) {
             keyPartJoiner.add(keyPart.convertDDL());
         }

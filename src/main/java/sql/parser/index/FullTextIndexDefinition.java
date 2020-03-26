@@ -1,10 +1,10 @@
-package sql.parser.table.index;
+package sql.parser.index;
 
-public class UniqueIndexDefinition extends IndexDefinition {
+public class FullTextIndexDefinition extends IndexDefinition {
 
-    private final static String TYPE = "UNIQUE";
+    private final static String TYPE = "FULLTEXT";
 
-    protected UniqueIndexDefinition(Builder builder) {
+    protected FullTextIndexDefinition(Builder builder) {
         super(builder);
     }
 
@@ -12,7 +12,7 @@ public class UniqueIndexDefinition extends IndexDefinition {
 
         @Override
         public IndexDefinition build() {
-            return new UniqueIndexDefinition(this);
+            return new FullTextIndexDefinition(this);
         }
 
     }

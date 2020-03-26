@@ -1,4 +1,4 @@
-package sql.parser.table;
+package sql.parser;
 
 import sql.parser.AbstractOperation;
 

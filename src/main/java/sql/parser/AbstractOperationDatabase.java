@@ -1,4 +1,4 @@
-package sql.parser.database;
+package sql.parser;
 
 import sql.parser.AbstractOperation;
 

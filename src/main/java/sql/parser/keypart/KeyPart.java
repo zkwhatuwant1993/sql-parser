@@ -1,8 +1,7 @@
-package sql.parser.table;
+package sql.parser.keypart;
 
 import org.apache.commons.lang3.StringUtils;
 import sql.parser.AbstractOperation;
-import sql.parser.enums.AscendingType;
 
 /**
  * @author liwenhe

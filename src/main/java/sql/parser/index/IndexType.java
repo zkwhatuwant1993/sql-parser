@@ -1,4 +1,4 @@
-package sql.parser.table.index;
+package sql.parser.index;
 
 /**
  * @author liwenhe

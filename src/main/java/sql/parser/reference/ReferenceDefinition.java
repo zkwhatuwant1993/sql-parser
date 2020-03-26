@@ -1,10 +1,8 @@
-package sql.parser.table.reference;
+package sql.parser.reference;
 
 import sql.parser.AbstractOperation;
 import sql.parser.OperationKeyword;
-import sql.parser.enums.AscendingType;
-import sql.parser.enums.MatchType;
-import sql.parser.table.KeyPart;
+import sql.parser.keypart.KeyPart;
 
 import java.util.LinkedHashMap;
 import java.util.StringJoiner;
@@ -106,7 +104,7 @@ public class ReferenceDefinition extends AbstractOperation {
             throw new ReferenceDefinitionException("KeyPart must be not null or empty.");
         }
 
-        StringJoiner keyPartJoiner = new StringJoiner(", ");
+        StringJoiner keyPartJoiner = new StringJoiner(COMMA_STRING + BLANK_STRING);
         for (KeyPart keyPart : keyParts.values()) {
             keyPartJoiner.add(keyPart.convertDDL());
         }
@@ -130,28 +128,6 @@ public class ReferenceDefinition extends AbstractOperation {
         }
 
         return this.getDdlJoiner().toString();
-    }
-
-    public static void main(String[] args) {
-        ReferenceDefinition rd = new Builder()
-                .table("test")
-                .onUpdate(ReferenceOption.CASCADE)
-                .keyParts(
-                    new KeyPart
-                            .Builder()
-                            .column("username")
-                            .ascending(AscendingType.ASC)
-                            .build()
-                )
-                .keyParts(
-                    new KeyPart
-                            .Builder()
-                            .column("password")
-                            .ascending(AscendingType.DESC)
-                            .build()
-                )
-                .build();
-        System.out.println(rd.convertDDL());
     }
 
 }

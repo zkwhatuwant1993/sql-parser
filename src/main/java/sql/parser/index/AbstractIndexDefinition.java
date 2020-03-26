@@ -1,7 +1,6 @@
-package sql.parser.table.index;
+package sql.parser.index;
 
 import sql.parser.AbstractOperation;
-import sql.parser.table.KeyPart;
 
 public abstract class AbstractIndexDefinition extends AbstractOperation {
 
@@ -18,16 +17,6 @@ public abstract class AbstractIndexDefinition extends AbstractOperation {
         }
         this.getDdlJoiner().add(INDEX);
         return this.ddl();
-    }
-
-    public static void main(String[] args) {
-        System.out.println(new UniqueIndexDefinition
-                .Builder()
-                .name("test1213")
-                .keyPart(new KeyPart.Builder().column("user").build())
-                .build()
-                .convertDDL()
-        );
     }
 
 }

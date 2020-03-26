@@ -1,9 +1,9 @@
-package sql.parser.table.primary;
+package sql.parser.primary;
 
 import sql.parser.AbstractOperation;
-import sql.parser.table.KeyPart;
-import sql.parser.table.index.IndexDefinitionException;
-import sql.parser.table.index.IndexType;
+import sql.parser.keypart.KeyPart;
+import sql.parser.index.IndexDefinitionException;
+import sql.parser.index.IndexType;
 
 import java.util.LinkedHashMap;
 import java.util.StringJoiner;
@@ -54,7 +54,7 @@ public class PrimaryKeyDefinition extends AbstractOperation {
             throw new IndexDefinitionException("KeyPart must be not null or empty.");
         }
 
-        StringJoiner keyPartJoiner = new StringJoiner(", ");
+        StringJoiner keyPartJoiner = new StringJoiner(COMMA_STRING + BLANK_STRING);
         for (KeyPart keyPart : keyParts.values()) {
             keyPartJoiner.add(keyPart.convertDDL());
         }
@@ -66,20 +66,6 @@ public class PrimaryKeyDefinition extends AbstractOperation {
         this.getDdlJoiner().add(RT_BRACKET_STRING);
 
         return this.getDdlJoiner().toString();
-    }
-
-    public static void main(String[] args) {
-        System.out.println(
-                new PrimaryKeyDefinition
-                        .Builder()
-                        .keyPart(
-                                new KeyPart
-                                        .Builder()
-                                        .column("id")
-                                        .build()
-                        ).build()
-                        .convertDDL()
-        );
     }
 
 }
