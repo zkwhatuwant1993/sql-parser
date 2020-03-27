@@ -61,10 +61,6 @@ public class IndexDefinition extends AbstractIndexDefinition {
 
     @Override
     protected String ddl() {
-        if (StringUtils.isEmpty(this.name) || StringUtils.isBlank(this.name)) {
-            throw new IndexDefinitionException("Index's name must be not empty or blank.");
-        }
-
         if (null == keyParts || keyParts.isEmpty()) {
             throw new IndexDefinitionException("KeyPart must be not null or empty.");
         }
@@ -74,7 +70,10 @@ public class IndexDefinition extends AbstractIndexDefinition {
             keyPartJoiner.add(keyPart.convertDDL());
         }
 
-        this.getDdlJoiner().add(this.name);
+        if (!StringUtils.isEmpty(this.name) && !StringUtils.isBlank(this.name)) {
+            this.getDdlJoiner().add(this.name);
+        }
+
         this.getDdlJoiner().add(this.type.name());
         this.getDdlJoiner().add(LT_BRACKET_STRING);
         this.getDdlJoiner().merge(keyPartJoiner);
