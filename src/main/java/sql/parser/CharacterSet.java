@@ -1,8 +1,7 @@
 package sql.parser;
 
 import java.lang.reflect.Field;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * A character set is a set of symbols and encodings.
@@ -13,18 +12,30 @@ import java.util.Set;
  * how to change the defaults, and how they affect the behavior of string operators and functions.</p>
  *
  * <p></p>
- *
+ * <p>
  * MySQL can do these things for you:
  * <ul>
  *     <li>Store strings using a variety of character sets.</li>
  *     <li>Compare strings using a variety of collations.</li>
- *     <li>Mix strings with different character sets or collations in the same server, the same database, or even the same table.</li>
+ *     <li>Mix strings with different character sets or collations in the same server, the same database, or even the
+ *     same table.</li>
  *     <li>Enable specification of character set and collation at any level.</li>
  * </ul>
  *
  * @author liwenhe
  */
 public class CharacterSet {
+
+    /**
+     * Parsing all subclass of CharacterSet and Their static fields to a map.
+     * The map key is character set name, and value is the collations of the character set
+     *
+     * <p>
+     * The type of Subclass static field must be String.
+     * If it wasn't or parse failed, then throw a {@link CharacterSetException}
+     * </p>
+     */
+    private final static Map<String, Set<String>> CHARACTER_SET;
 
     /**
      * Parsing all subclass of CharacterSet static field to {@link CharacterSet#COLLATIONS}
@@ -35,27 +46,34 @@ public class CharacterSet {
      * </p>
      */
     private final static Set<String> COLLATIONS;
+
     static {
         Class[] clzs = CharacterSet.class.getClasses();
+        CHARACTER_SET = new HashMap<>(clzs.length);
         COLLATIONS = new HashSet<>(clzs.length);
+        Set<String> collationSet;
+
         for (Class clz : clzs) {
             Field[] fields = clz.getDeclaredFields();
+            collationSet = new HashSet<>(fields.length);
             for (Field field : fields) {
                 field.setAccessible(true);
                 if (!field.getType().isAssignableFrom(String.class)) {
                     throw new CharacterSetException(
-                            String.format("Field[=%s] type[=%s] must be String in [%s]."
-                                    , field.getName()
-                                    , field.getType()
-                                    , clz));
+                        String.format("Field[=%s] type[=%s] must be String in [%s]."
+                            , field.getName()
+                            , field.getType()
+                            , clz));
                 }
                 try {
                     Object filedTypeInstance = field.getType().newInstance();
-                    COLLATIONS.add((String) field.get(filedTypeInstance));
+                    collationSet.add((String) field.get(filedTypeInstance));
                 } catch (Exception e) {
                     throw new CharacterSetException(e.getMessage(), e);
                 }
             }
+            COLLATIONS.addAll(collationSet);
+            CHARACTER_SET.put(clz.getSimpleName(), collationSet);
         }
     }
 
@@ -66,7 +84,25 @@ public class CharacterSet {
      * @return if exists a collation, then return true, or return false
      */
     public static Boolean exists(String collation) {
-        return COLLATIONS.contains(collation);
+        return COLLATIONS.contains(collation.toUpperCase());
+    }
+
+    /**
+     * Check charsetName exists in keys of map {@link CharacterSet#CHARACTER_SET},
+     * and the collation in the collations set {@link CharacterSet#CHARACTER_SET} of given charset
+     *
+     * @param charsetName charset name
+     * @param collation   input a collation
+     * @return If and only if charsetName exists and collation in the collations of the charset return true, other
+     * return false.
+     */
+    public static Boolean exists(String charsetName, String collation) {
+        Set<String> collations = CHARACTER_SET.get(charsetName.toUpperCase());
+        if (collations == null) {
+            return false;
+        }
+
+        return collations.contains(collation.toUpperCase());
     }
 
     public static class BIG5 extends CharacterSet {
